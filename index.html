@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#111827">
 <title>Nosso Carro — 48 parcelas</title>
 <style>
-:root{--bg:#f4f5f7;--card:#fff;--text:#111827;--muted:#6b7280;--accent:#111827;--ok:#16a34a;--line:#e5e7eb}
+:root{--bg:#f4f5f7;--card:#fff;--text:#111827;--muted:#6b7280;--ok:#16a34a;--line:#e5e7eb}
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text)}
 .wrap{max-width:560px;margin:auto;padding:18px 16px 36px}.hero{background:#111827;color:white;border-radius:28px;padding:24px 20px;box-shadow:0 12px 30px #0002}
 .kicker{font-size:13px;opacity:.72}.title{font-size:30px;font-weight:800;margin:5px 0}.sub{opacity:.78}
@@ -14,67 +14,61 @@
 .stats{display:flex;justify-content:space-between;font-size:14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px}.label{font-size:12px;color:var(--muted)}.value{font-size:19px;font-weight:750;margin-top:4px}
 .section{font-size:20px;font-weight:800;margin:24px 2px 10px}.list{display:flex;flex-direction:column;gap:8px}
-.installment{display:flex;align-items:center;gap:12px;background:white;border:1px solid var(--line);border-radius:16px;padding:13px;cursor:pointer;transition:.15s}
+.installment{display:flex;align-items:center;gap:12px;background:white;border:1px solid var(--line);border-radius:16px;padding:13px;cursor:pointer}
 .installment.paid{border-color:#bbf7d0;background:#f0fdf4}.check{width:30px;height:30px;border-radius:50%;border:2px solid #d1d5db;display:grid;place-items:center;flex:none;font-weight:800}.paid .check{background:var(--ok);border-color:var(--ok);color:white}
-.info{flex:1}.n{font-weight:750}.d{font-size:13px;color:var(--muted);margin-top:2px}.badge{font-size:11px;font-weight:700;color:var(--ok)}
+.info{flex:1;min-width:0}.n{font-weight:750}.d{font-size:13px;color:var(--muted);margin-top:2px}.amount{font-size:12px;color:var(--muted);margin-top:5px}.amount strong{color:var(--text)}.badge{font-size:11px;font-weight:700;color:var(--ok)}
+.summary{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;margin-top:14px}.summary-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0}.summary-row+.summary-row{border-top:1px solid var(--line)}.summary-label{color:var(--muted);font-size:13px}.summary-value{font-weight:800;text-align:right}
 button{width:100%;border:0;background:#111827;color:#fff;border-radius:14px;padding:13px;font-weight:700;margin-top:14px}button.secondary{background:#e5e7eb;color:#111827}
 .note{font-size:12px;color:var(--muted);text-align:center;margin-top:18px;line-height:1.5}
+dialog{border:0;border-radius:22px;padding:0;width:min(92vw,430px);box-shadow:0 20px 60px #0004}dialog::backdrop{background:#0008}.modal{padding:20px}.modal h2{margin:0 0 4px}.modal .muted{color:var(--muted);font-size:13px}.field{margin-top:14px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}.field input{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:12px;font-size:16px;background:#fff}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}.actions button{margin:0}.danger{background:#fee2e2!important;color:#991b1b!important}.primary{background:#111827!important;color:#fff!important}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="hero">
-    <div class="kicker">❤️ PROJETO DO CASAL</div>
-    <div class="title">Nosso Carro</div>
-    <div class="sub">Missão: quitar essa bagaça 😂</div>
-    <div class="progress"><div class="bar" id="bar"></div></div>
-    <div class="stats"><span id="progressText">1 de 48 parcelas</span><strong id="percent">2,1%</strong></div>
-  </div>
-
-  <div class="grid">
-    <div class="card"><div class="label">Pagas</div><div class="value" id="paid">1</div></div>
-    <div class="card"><div class="label">Restantes</div><div class="value" id="left">47</div></div>
-    <div class="card"><div class="label">Próxima parcela</div><div class="value" id="next">22/11/2026</div></div>
-    <div class="card"><div class="label">Término</div><div class="value">22/09/2030</div></div>
-  </div>
-
-  <div class="section">Parcelas</div>
-  <div class="list" id="list"></div>
-  <button class="secondary" onclick="resetData()">Desmarcar tudo (teste)</button>
-  <div class="note">A 1ª parcela foi paga antecipadamente em 30/09/2026 e vence contratualmente em 22/10/2026.<br>Esta versão salva as marcações neste aparelho/navegador.</div>
+<div class="hero"><div class="kicker">❤️ PROJETO DO CASAL</div><div class="title">Nosso Carro</div><div class="sub">Missão: quitar essa bagaça 😂</div>
+<div class="progress"><div class="bar" id="bar"></div></div><div class="stats"><span id="progressText">1 de 48 parcelas</span><strong id="percent">2,1%</strong></div></div>
+<div class="grid">
+<div class="card"><div class="label">Pagas</div><div class="value" id="paidCount">1</div></div>
+<div class="card"><div class="label">Restantes</div><div class="value" id="left">47</div></div>
+<div class="card"><div class="label">Total realmente pago</div><div class="value" id="totalPaid">R$ 1.420,71</div></div>
+<div class="card"><div class="label">Economia registrada</div><div class="value" id="savings">R$ 17,47</div></div>
 </div>
+<div class="summary">
+<div class="summary-row"><span class="summary-label">Valor nominal das 48 parcelas</span><span class="summary-value" id="nominalTotal">R$ 69.032,64</span></div>
+<div class="summary-row"><span class="summary-label">Valor nominal ainda aberto</span><span class="summary-value" id="nominalOpen">R$ 67.594,46</span></div>
+<div class="summary-row"><span class="summary-label">Próxima parcela por vencimento</span><span class="summary-value" id="next">22/11/2026</span></div>
+<div class="summary-row"><span class="summary-label">Término</span><span class="summary-value">22/09/2030</span></div>
+</div>
+<div class="section">Parcelas</div><div class="list" id="list"></div>
+<button class="secondary" onclick="resetData()">Restaurar teste inicial</button>
+<div class="note">Toque em qualquer parcela para registrar o valor que vocês realmente pagaram. A parcela pode ser quitada fora de ordem. O site calcula a economia comparando o valor nominal com o valor informado como pago.<br><br>Esta versão salva os dados somente neste aparelho/navegador. A sincronização entre dois celulares será feita depois.</div>
+</div>
+<dialog id="payDialog"><div class="modal"><h2 id="modalTitle">Registrar pagamento</h2><div class="muted" id="modalSubtitle"></div>
+<div class="field"><label for="paidAmount">Valor realmente pago (R$)</label><input id="paidAmount" inputmode="decimal" placeholder="Ex.: 1420,71"></div>
+<div class="field"><label for="paidDate">Data do pagamento</label><input id="paidDate" type="date"></div>
+<div class="actions"><button class="danger" id="removeBtn" onclick="removePayment()">Desmarcar</button><button class="primary" onclick="savePayment()">Salvar pagamento</button></div>
+</div></dialog>
 <script>
-const start = new Date(2026,9,22); // 22/10/2026
-const total = 48;
-let paid = JSON.parse(localStorage.getItem('carro_quitado_paid') || '[1]');
-
+const total=48, nominalInstallment=1438.18, storageKey='carro_quitado_payments_v3';
+const initial={1:{paidAmount:1420.71,paidDate:'2026-09-30'}};
+let payments=JSON.parse(localStorage.getItem(storageKey)||'null'); if(!payments){payments=initial;saveState()}
+let selected=null;
+function saveState(){localStorage.setItem(storageKey,JSON.stringify(payments))}
+function brl(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function parseMoney(v){let s=String(v).trim().replace(/R\$/g,'').replace(/\s/g,'');if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');return Number(s)}
 function fmt(d){return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear()}
-function installmentDate(i){
-  const d = new Date(2026, 9+i, 22);
-  return d;
-}
+function installmentDate(i){return new Date(2026,9+i,22)}
 function render(){
-  const list=document.getElementById('list'); list.innerHTML='';
-  for(let i=1;i<=total;i++){
-    const el=document.createElement('div'); el.className='installment'+(paid.includes(i)?' paid':'');
-    el.innerHTML=`<div class="check">${paid.includes(i)?'✓':''}</div><div class="info"><div class="n">Parcela ${String(i).padStart(2,'0')}</div><div class="d">${fmt(installmentDate(i-1))}${i===1?' · paga em 30/09/2026':''}</div></div>${paid.includes(i)?'<div class="badge">PAGA</div>':''}`;
-    el.onclick=()=>toggle(i); list.appendChild(el);
-  }
-  const count=paid.length, pct=(count/total)*100;
-  document.getElementById('paid').textContent=count;
-  document.getElementById('left').textContent=total-count;
-  document.getElementById('percent').textContent=pct.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
-  document.getElementById('progressText').textContent=`${count} de ${total} parcelas`;
-  document.getElementById('bar').style.width=pct+'%';
-  const next = Array.from({length:total},(_,i)=>i+1).find(i=>!paid.includes(i));
-  document.getElementById('next').textContent=next?fmt(installmentDate(next-1)):'QUITADO 🎉';
-}
-function toggle(i){
-  if(paid.includes(i)) paid=paid.filter(x=>x!==i); else paid=[...paid,i].sort((a,b)=>a-b);
-  localStorage.setItem('carro_quitado_paid',JSON.stringify(paid)); render();
-}
-function resetData(){ if(confirm('Voltar para 1ª parcela paga?')){paid=[1];localStorage.setItem('carro_quitado_paid',JSON.stringify(paid));render();}}
+const list=document.getElementById('list');list.innerHTML='';
+for(let i=1;i<=total;i++){const p=payments[i],el=document.createElement('div');el.className='installment'+(p?' paid':'');const date=installmentDate(i-1),saving=p?nominalInstallment-p.paidAmount:0;
+el.innerHTML='<div class="check">'+(p?'✓':'')+'</div><div class="info"><div class="n">Parcela '+String(i).padStart(2,'0')+'</div><div class="d">'+fmt(date)+'</div><div class="amount">Valor nominal: <strong>'+brl(nominalInstallment)+'</strong>'+(p?' · Pago real: <strong>'+brl(p.paidAmount)+'</strong>':'')+(p&&saving>0.004?' · Economia: <strong>'+brl(saving)+'</strong>':'')+'</div></div>'+(p?'<div class="badge">PAGA</div>':'');el.onclick=()=>openPayment(i);list.appendChild(el)}
+const count=Object.keys(payments).length,totalPaid=Object.values(payments).reduce((s,p)=>s+Number(p.paidAmount||0),0),savings=Object.values(payments).reduce((s,p)=>s+(nominalInstallment-Number(p.paidAmount||0)),0),nominalTotal=total*nominalInstallment,nominalOpen=nominalTotal-count*nominalInstallment,pct=count/total*100;
+document.getElementById('paidCount').textContent=count;document.getElementById('left').textContent=total-count;document.getElementById('totalPaid').textContent=brl(totalPaid);document.getElementById('savings').textContent=brl(Math.max(0,savings));document.getElementById('nominalTotal').textContent=brl(nominalTotal);document.getElementById('nominalOpen').textContent=brl(nominalOpen);document.getElementById('percent').textContent=pct.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';document.getElementById('progressText').textContent=count+' de '+total+' parcelas';document.getElementById('bar').style.width=pct+'%';
+const next=Array.from({length:total},(_,i)=>i+1).find(i=>!payments[i]);document.getElementById('next').textContent=next?fmt(installmentDate(next-1)):'QUITADO 🎉'}
+function openPayment(i){selected=i;const p=payments[i];document.getElementById('modalTitle').textContent=p?'Editar parcela '+String(i).padStart(2,'0'):'Registrar parcela '+String(i).padStart(2,'0');document.getElementById('modalSubtitle').textContent='Vencimento: '+fmt(installmentDate(i-1))+' · Valor nominal: '+brl(nominalInstallment);document.getElementById('paidAmount').value=p?String(p.paidAmount).replace('.',','):'';document.getElementById('paidDate').value=p?p.paidDate:new Date().toISOString().slice(0,10);document.getElementById('removeBtn').style.display=p?'block':'none';document.getElementById('payDialog').showModal()}
+function savePayment(){const amount=parseMoney(document.getElementById('paidAmount').value),date=document.getElementById('paidDate').value;if(!selected||!Number.isFinite(amount)||amount<=0){alert('Digite um valor pago válido.');return}if(!date){alert('Informe a data do pagamento.');return}payments[selected]={paidAmount:Number(amount.toFixed(2)),paidDate:date};saveState();document.getElementById('payDialog').close();render()}
+function removePayment(){if(!selected)return;if(confirm('Desmarcar esta parcela?')){delete payments[selected];saveState();document.getElementById('payDialog').close();render()}}
+function resetData(){if(confirm('Restaurar somente a 1ª parcela paga por R$ 1.420,71?')){payments={...initial};saveState();render()}}
 render();
 </script>
-</body>
-</html>
+</body></html>
